@@ -36,3 +36,80 @@
     transform: rotate(360deg);
   }
 }
+
+.quote-container {
+  position: relative; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-size: 200% 200%;
+  background-image: linear-gradient(to bottom right, red 50%, black 50%);
+  transition: background-position 1s;
+}
+
+.diagonal-swipe {
+  background-position: 100% 100%; 
+  transition: background-position 1s;}
+
+@keyframes swipe {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+
+.quote-box {
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 0 80px #61dafb;
+  border-radius: 8px;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.quote-text {
+  font-size: 24px;
+}
+
+.author {
+  font-size: 16px;
+}
+
+.generate-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.autoMode-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #ff4400;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.autoMode-button:hover {
+  background-color: #cf592f;
+}
+
+.generate-button:hover {
+  background-color: #0056b3;
+}
