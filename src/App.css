@@ -37,7 +37,7 @@
   }
 }
 
-.quote-container {
+/* .quote-container {
   position: relative; 
   display: flex;
   flex-direction: column;
@@ -48,19 +48,24 @@
   background-size: 200% 200%;
   background-image: linear-gradient(to bottom right, red 50%, black 50%);
   transition: background-position 1s;
+} */
+
+.quote-container.wipe {
+  animation: wipe-animation 1s linear;
 }
 
-.diagonal-swipe {
-  background-position: 100% 100%; 
-  transition: background-position 1s;}
-
-@keyframes swipe {
+@keyframes wipe-animation {
   0% {
-    transform: scaleX(1);
+    background-position: 0% 0%;
   }
   100% {
-    transform: scaleX(0);
+    background-position: 100% 100%;
   }
+}
+
+.wipe {
+  background-position: 100% 100%; /* Start from the bottom right corner */
+  transition: background-position 1s;
 }
 
 

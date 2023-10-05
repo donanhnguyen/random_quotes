@@ -6,6 +6,7 @@ function App() {
   const [quote, setQuote] = useState({});
   const [backgroundColorState, setBackgroundColorState] = useState(getRandomColor());
   const [nextColor, setNextColor] = useState(getRandomColor());
+  
   const [autoMode, setAutoMode] = useState(false);
 
   useEffect(() => {
@@ -25,38 +26,57 @@ function App() {
     try {
       const response = await axios.get('http://safetybelt.pythonanywhere.com/quotes/random');
       setQuote(response.data);
-      setBackgroundColorState(nextColor);
-      setNextColor(getRandomColor());
+      changeBackground();
     } catch (error) {
       console.log(error);
     }
   };
 
-  function getRandomColor() {
+  function getRandomColor(excludeColor) {
     const colors = ['yellow', 'blue', 'gray', 'green', 'purple', 'orange', 'black', 'brown', 'red', 'teal'];
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * colors.length);
-    } while (newIndex === getRandomColor.previousIndex);
-    getRandomColor.previousIndex = newIndex;
-    return colors[newIndex];
+  
+    const availableColors = excludeColor
+      ? colors.filter((color) => color !== excludeColor)
+      : colors;
+  
+    return availableColors[Math.floor(Math.random() * availableColors.length)];
   }
-
-  const quoteContainerStyle = {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '100vh',
-    fontFamily: "Georgia, 'Times New Roman', Times, serif",
-    backgroundImage: `linear-gradient(to bottom right, ${backgroundColorState}, ${nextColor})`,
-    backgroundSize: '200% 200%',
-    transition: 'background-image 1s',
+  
+  
+  const quoteContainerStyle = () => {
+    return {
+      'position': 'relative',
+      'display': 'flex',
+      'flex-direction': 'column',
+      'align-items': 'center',
+      'justify-content': 'center',
+      'height': '100vh',
+      'font-family': "Georgia, 'Times New Roman', Times, serif",
+      'background-size': '200% 200%', 
+      'background-image': `linear-gradient(to bottom right, ${backgroundColorState} 50%, ${nextColor} 50%)`,
+      'transition': 'background-position 1s'
+    };
   };
 
+  function changeBackground() {
+    const quoteContainer = document.querySelector(".quote-container");
+    quoteContainer.classList.toggle("wipe");
+    
+    setBackgroundColorState(nextColor);
+  
+    setNextColor((prevBackgroundColor) => {
+      let newColor;
+      do {
+        newColor = getRandomColor(prevBackgroundColor);
+      } while (newColor === prevBackgroundColor);
+      return newColor;
+    });
+  }
+  
+  console.log("first color" + backgroundColorState);
+  console.log("next color" + nextColor)
   return (
-    <div className='quote-container' style={quoteContainerStyle}>
+    <div className='quote-container' style={quoteContainerStyle()}>
       <div className="quote-box">
         <p className="quote-text">{quote.quote}</p>
         <p className="author">{quote.author}</p>
